@@ -1,7 +1,7 @@
 package main
 
 import (
-	socks "GoFLParcerXML/lib"
+	socks "GoFLParcerXML/pkg"
 	"flag"
 	"fmt"
 	"os"
