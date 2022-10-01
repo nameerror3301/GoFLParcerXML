@@ -4,7 +4,7 @@
 
 #
 
-## Algorithm
+## Algorithm v1.0
 
 - [X] Parsing proxy from site
 
@@ -12,13 +12,17 @@
 
 - [X] Parsing XML
 
+- [X] Send new order to us in Telegram 
+
+## Algorithm v2.0
+
 - [ ] Cover everything with tests
 
 - [ ] Put it in the docker
 
-- [X] Send new order to us in Telegram 
+- [ ] Check proxy
 
-- [ ] Add http proxy
+
   
 ## Problems
 - [X] If the proxy has any problems then our program fails, find a solution 

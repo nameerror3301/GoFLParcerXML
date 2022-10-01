@@ -60,11 +60,12 @@ func GetXmlItem(urlSocks, urlFl string) (string, string, string, string, string)
 	if err != nil {
 		log.Fatalf("Err unmarshal xml to struct - %s\n", err)
 	}
-	return r.Channel.Item[0].Category,
-		r.Channel.Item[0].Title,
-		r.Channel.Item[0].Description,
-		r.Channel.Item[0].Link,
-		r.Channel.Item[0].PubDate
+	// Started to take the first item and not zero because zero is a pinned order
+	return r.Channel.Item[1].Category,
+		r.Channel.Item[1].Title,
+		r.Channel.Item[1].Description,
+		r.Channel.Item[1].Link,
+		r.Channel.Item[1].PubDate
 }
 
 // Getting XML in the body of the request
@@ -84,6 +85,7 @@ func Request(urlSocks, urlFl string) io.ReadCloser {
 	if err != nil {
 		log.Printf("Error sending request via proxy - %s\n", err)
 		resp, err = http.Get(urlFl)
+		// Fix this crunch
 		if err != nil {
 			log.Fatalf("Err get to fl.ru - %s\n", err)
 		}
