@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 var (
@@ -26,6 +27,10 @@ func init() {
 }
 
 func main() {
+	// Timer 30 sec...
+	t := time.NewTimer(3 * time.Second)
+	fmt.Printf("Начало ожидания - %v\n", time.Now().Format(time.UnixDate))
+	<-t.C
 	category, title, description, link, pubDate := x.GetXmlItem("https://hidemy.name/ru/proxy-list/?type=5#list", "https://www.fl.ru/rss/all.xml")
 	message := map[string]interface{}{
 		"chat_id": "983044040",
