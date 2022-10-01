@@ -16,7 +16,7 @@
 
 - [ ] Put it in the docker
 
-- [ ] Send new order to us in Telegram 
+- [X] Send new order to us in Telegram 
 
 - [ ] Add http proxy
   
