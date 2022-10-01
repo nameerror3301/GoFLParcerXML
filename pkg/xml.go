@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -50,7 +49,7 @@ type Rss struct {
 }
 
 // Pull the data we need
-func GetXmlItem(urlSocks, urlFl string) {
+func GetXmlItem(urlSocks, urlFl string) (string, string, string, string, string) {
 	file, err := ioutil.ReadAll(Request(urlSocks, urlFl))
 	if err != nil {
 		log.Fatalf("Err read responce body - %s\n", err)
@@ -61,11 +60,11 @@ func GetXmlItem(urlSocks, urlFl string) {
 	if err != nil {
 		log.Fatalf("Err unmarshal xml to struct - %s\n", err)
 	}
-	fmt.Println(r.Channel.Item[0].Category)
-	fmt.Println(r.Channel.Item[0].Title)
-	fmt.Println(r.Channel.Item[0].Description)
-	fmt.Println(r.Channel.Item[0].Link)
-	fmt.Println(r.Channel.Item[0].PubDate)
+	return r.Channel.Item[0].Category,
+		r.Channel.Item[0].Title,
+		r.Channel.Item[0].Description,
+		r.Channel.Item[0].Link,
+		r.Channel.Item[0].PubDate
 }
 
 // Getting XML in the body of the request
@@ -80,9 +79,14 @@ func Request(urlSocks, urlFl string) io.ReadCloser {
 			Dial: dialer.Dial,
 		},
 	}
+	// If request through proxy to Fl will not pass, then there will be repeated request to Fl from the main ip
 	resp, err := client.Get(urlFl)
 	if err != nil {
-		log.Fatalf("Err responce xml - %s\n", err)
+		log.Printf("Error sending request via proxy - %s\n", err)
+		resp, err = http.Get(urlFl)
+		if err != nil {
+			log.Fatalf("Err get to fl.ru - %s\n", err)
+		}
 	}
 	return resp.Body
 }

@@ -1,9 +1,13 @@
 package main
 
 import (
-	socks "GoFLParcerXML/pkg"
+	x "GoFLParcerXML/pkg"
+	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -22,5 +26,17 @@ func init() {
 }
 
 func main() {
-	socks.GetXmlItem("https://hidemy.name/ru/proxy-list/?type=5#list", "https://www.fl.ru/rss/all.xml")
+	category, title, description, link, pubDate := x.GetXmlItem("https://hidemy.name/ru/proxy-list/?type=5#list", "https://www.fl.ru/rss/all.xml")
+	message := map[string]interface{}{
+		"chat_id": "983044040",
+		"text":    fmt.Sprintf("Категория - [%s]\nЗаголовок - [%s]\nОписание - [\t%s]\nСсылка - [%s]\n [%s]\n", category, title, description, link, pubDate),
+	}
+	bytesRepresentation, err := json.Marshal(message)
+	if err != nil {
+		log.Fatalf("Err marshal message - %s\n", err)
+	}
+	_, err = http.Post(fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage?", tgBotToken), "application/json", bytes.NewBuffer(bytesRepresentation))
+	if err != nil {
+		log.Fatalf("Err sending message to telegram - %s\n", err)
+	}
 }

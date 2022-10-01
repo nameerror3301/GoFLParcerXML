@@ -7,7 +7,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-// Parsing addresses from the site
+// Parsing addresses from the site (SOCKS PROXY)
 func SocksParce(url string) string {
 	var arr []string
 	c := colly.NewCollector()
