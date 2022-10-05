@@ -28,12 +28,12 @@ func init() {
 
 func main() {
 	// Timer 30 sec...
-	t := time.NewTimer(3 * time.Second)
+	t := time.NewTimer(30 * time.Second)
 	fmt.Printf("Начало ожидания - %v\n", time.Now().Format(time.UnixDate))
 	<-t.C
 	category, title, description, link, pubDate := x.GetXmlItem("https://hidemy.name/ru/proxy-list/?type=5#list", "https://www.fl.ru/rss/all.xml")
 	message := map[string]interface{}{
-		"chat_id": "983044040",
+		"chat_id": "983044040", // Your telegram chatid
 		"text":    fmt.Sprintf("Категория - [%s]\nЗаголовок - [%s]\nОписание - [\t%s]\nСсылка - [%s]\n [%s]\n", category, title, description, link, pubDate),
 	}
 	bytesRepresentation, err := json.Marshal(message)
