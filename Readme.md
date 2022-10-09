@@ -1,30 +1,36 @@
-# GoFLParceXML
+<p align="center">
+      <img src="https://cashbee.me/img/shops/fl.svg" width="700">
+</p>
 
-### Script to optimize the search for orders on FL.RU
+<p align="center">
+   <img src="https://img.shields.io/badge/Golang-version%201.18-blue" alt="Golang">   
+   <img src="https://img.shields.io/badge/GoFLParcerXML-version%201.0-blue" alt="Project-Version">
+</p>
 
-#
+## About
 
-## Algorithm v1.0
+This project was created to optimize the search for orders on FL.RU. The reason for creating it is simple: the site does not show notifications of new orders for all categories, but only for selected ones. As for blocking, there will be no blocking, because when parsing XML file is used proxy SOCKS5 and your account is in complete safety. 
 
-- [X] Parsing proxy from site
+New requests come to you on Telegram.
 
-- [X] Send proxy request to FL and get XML
+## Documentation
 
-- [X] Parsing XML
+Required language version **Golang 1.18**
 
-- [X] Send new order to us in Telegram 
+## Build
 
-## Algorithm v2.0
+For this application to work, you need to edit **message** in the **main.go** file located in **cmd/bot** in the root directory of the project and insert the chat ID of your Telegram account there.
 
-- [ ] Cover everything with tests
+Required language version **Golang 1.18**
 
-- [ ] Put it in the docker
+After all the above steps you can run the application with the flag **"-tgBotToken "** and specify your bot's token, the token can be obtained by @BotFather.
 
-- [ ] Check proxy
+The full startup command **"go run main.go -tgBotToken 5437359584:AAGHGhwi8nPaTKQHK7XNAjHHHH-rGhjgfdhyT "**
 
+## Developers
 
-  
-## Problems
-- [X] If the proxy has any problems then our program fails, find a solution 
-  - At the moment we decided that when an error we send a request from our ip, later planning to implement an automatic change of proxy, but now I am lazy :)
+- [OneByteForLife](https://github.com/nameerror3301)
 
+## License
+
+- This software is protected under the MIT license!
