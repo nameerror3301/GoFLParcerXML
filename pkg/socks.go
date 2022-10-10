@@ -9,6 +9,9 @@ import (
 
 // Parsing addresses from the site (SOCKS PROXY)
 func SocksParce(url string) string {
+	if !strings.Contains(url, "http://") && !strings.Contains(url, "https://") {
+		return ""
+	}
 	var arr []string
 	c := colly.NewCollector()
 	c.OnHTML("div > table tr", func(e *colly.HTMLElement) {

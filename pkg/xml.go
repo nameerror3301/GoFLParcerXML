@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -49,31 +50,35 @@ type Rss struct {
 }
 
 // Pull the data we need
-func GetXmlItem(urlSocks, urlFl string) (string, string, string, string, string) {
-	file, err := ioutil.ReadAll(Request(urlSocks, urlFl))
+func GetXmlItem(urlSocks, urlFl string) (string, string, string, string, string, error) {
+	body, err := Request(urlSocks, urlFl)
 	if err != nil {
-		log.Fatalf("Err read responce body - %s\n", err)
+		return "", "", "", "", "", fmt.Errorf(err.Error())
+	}
+	file, err := ioutil.ReadAll(body)
+	if err != nil {
+		return "", "", "", "", "", fmt.Errorf("err read request body - %s", err)
 	}
 
 	var r Rss
 	err = xml.Unmarshal(file, &r)
 	if err != nil {
-		log.Fatalf("Err unmarshal xml to struct - %s\n", err)
+		return "", "", "", "", "", fmt.Errorf("err unmarshal xml - %s", err)
 	}
 	// Started to take the first item and not zero because zero is a pinned order
 	return r.Channel.Item[1].Category,
 		r.Channel.Item[1].Title,
 		r.Channel.Item[1].Description,
 		r.Channel.Item[1].Link,
-		r.Channel.Item[1].PubDate
+		r.Channel.Item[1].PubDate, nil
 }
 
 // Getting XML in the body of the request
-func Request(urlSocks, urlFl string) io.ReadCloser {
+func Request(urlSocks, urlFl string) (io.ReadCloser, error) {
 	ip := strings.TrimSpace(SocksParce(urlSocks))
 	dialer, err := proxy.SOCKS5("tcp", ip, nil, proxy.Direct)
 	if err != nil {
-		log.Fatalf("Err add proxy - %s\n", err)
+		return nil, fmt.Errorf("err add proxy - %s", err)
 	}
 	client := &http.Client{
 		Transport: &http.Transport{
@@ -87,8 +92,8 @@ func Request(urlSocks, urlFl string) io.ReadCloser {
 		resp, err = http.Get(urlFl)
 		// Fix this crunch
 		if err != nil {
-			log.Fatalf("Err get to fl.ru - %s\n", err)
+			return nil, fmt.Errorf("err get to fl.ru - %s", err)
 		}
 	}
-	return resp.Body
+	return resp.Body, nil
 }
