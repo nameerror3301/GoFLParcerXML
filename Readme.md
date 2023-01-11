@@ -29,7 +29,7 @@ The full startup command **"go run main.go -tgBotToken 5437359584:AAGHGhwi8nPaTK
 
 ## Developers
 
-- [OneByteForLife](https://github.com/nameerror3301)
+- [OneByteForLife](https://github.com/OneByteForLife)
 
 ## License
 
